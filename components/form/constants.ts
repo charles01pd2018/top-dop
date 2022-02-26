@@ -1,0 +1,1 @@
+export const REQUIRED_TYPES = [ 'email', 'username', 'password' ];

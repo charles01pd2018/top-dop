@@ -1,9 +1,5 @@
-import Headers from './headers';
-import Paragraphs from './paragraphs';
-import Container from './container';
+import TextMessage from './text-message';
 
 export {
-    Headers,
-    Paragraphs,
-    Container,
+    TextMessage,
 }

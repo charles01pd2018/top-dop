@@ -7,8 +7,8 @@
 # Variables
 --------------------------------------------------------------*/
 $scrollbar--width:                  0.8rem;
-$scrollbar-thumb--color:            map.get( $colors, 'green', 3 );
-$scrollbar--background-color:       map.get( $colors, 'green', 1 );
+$scrollbar-thumb--color:            map.get( $colors, 'blue', 3 );
+$scrollbar--background-color:       map.get( $colors, 'blue', 1 );
 $scroll-bar-thumb--border-radius:   20px;
 
 /*--------------------------------------------------------------
@@ -28,5 +28,4 @@ $scroll-bar-thumb--border-radius:   20px;
 ::-webkit-scrollbar-thumb {
     background-color: $scrollbar-thumb--color; // color of the scroll thumb
     border-radius: $scroll-bar-thumb--border-radius; // roundness of the scroll thumb
-    // border: 1px solid orange; // border of the scroll thumb
 }

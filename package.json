@@ -1,6 +1,6 @@
 {
-  "name": "nextjs-starting-template",
-  "description": "This is going to be the greatest app ever!!!",
+  "name": "top-dop",
+  "description": "Did you mean...?",
   "version": "0.1.0",
   "author": "pofo",
   "license": "MIT",
@@ -10,10 +10,13 @@
     "start": "next start"
   },
   "dependencies": {
+    "dexie": "^3.2.1",
+    "dexie-react-hooks": "^1.1.1",
     "next": "^12.1.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "sass": "^1.49.9"
+    "sass": "^1.49.9",
+    "use-debounce": "^7.0.1"
   },
   "devDependencies": {
     "@types/node": "^17.0.21",
