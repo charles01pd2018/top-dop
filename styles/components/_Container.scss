@@ -1,0 +1,17 @@
+// dependencies
+@use 'sass:map';
+// constants
+@use '../constants/colors' as *;
+
+/*--------------------------------------------------------------
+# Styling
+--------------------------------------------------------------*/
+.container-wrapper {
+    border: 3px solid map.get( $colors, 'brand-blue', 4 );
+
+    /* CHILDREN */
+    &.paragraphs-container {
+        border-color: map.get( $colors, 'green', 4 );
+        border-width: 5px;
+    }
+}

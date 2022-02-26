@@ -1,0 +1,86 @@
+// dependencies
+@use 'sass:list';
+// constants
+@use '../constants/fontStyles' as *;
+
+/*--------------------------------------------------------------
+# Variables
+--------------------------------------------------------------*/
+$h1-size: ( 2.6em, 3.3vw, 3.3em );
+$header-tags: ( 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' );
+$header-scale: 0.95; // how much each subsequent header will decrease in size
+
+$paragraph-size: ( 1.02em, 1.27vw, 1.21em );
+$text-classnames: ( 'text-norm', 'text-sm', 'text-xs', 'text-xxs' );
+$text-scale: 0.95; // how much each subsequent text classname will decrease in size
+
+/*--------------------------------------------------------------
+# Styling
+--------------------------------------------------------------*/
+// headers
+$header-size: $h1-size;
+@each $header-tag in $header-tags {
+    $min: list.nth( $header-size, 1 );
+    $default: list.nth( $header-size, 2 );
+    $max: list.nth( $header-size, 3 );
+    
+    $font-size: clamp( $min, $default, $max );
+    #{$header-tag} {
+        font-size: $font-size;
+    }
+
+    .#{$header-tag} {
+        font-size: $font-size;
+    }
+
+    $header-size: (
+        $min * $header-scale,
+        $default * $header-scale,
+        $max * $header-scale,
+    );
+}
+
+// paragraphs
+p {
+    $min: list.nth( $paragraph-size, 1 );
+    $default: list.nth( $paragraph-size, 2 );
+    $max: list.nth( $paragraph-size, 3 );
+
+    font-size: clamp( $min, $default, $max );
+}
+
+$text-size: $paragraph-size;
+@each $text-class in $text-classnames {
+    $min: list.nth( $text-size, 1 );
+    $default: list.nth( $text-size, 2 );
+    $max: list.nth( $text-size, 3 );
+    
+    .#{$text-class} {
+        font-size: clamp( $min, $default, $max );
+    }
+
+    $text-size: (
+        $min * $text-scale,
+        $default * $text-scale,
+        $max * $text-scale,
+    );
+}
+
+/*--------------------------------------------------------------
+# CUSTOM FONTS - Font Family
+--------------------------------------------------------------*/
+// @each $font-name, $font-style in $font-names {
+//     @font-face {
+//         font-family: $font-name;
+//         src: url('/static/fonts/#{$font-name}/#{$font-name}-#{$font-style}.ttf');
+//         font-style: normal;
+//         font-display: block;
+//     }
+// }
+
+/*--------------------------------------------------------------
+# Helper
+--------------------------------------------------------------*/
+.weak-heading {
+    font-weight: normal;
+}
