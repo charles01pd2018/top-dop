@@ -97,7 +97,12 @@ const Form: FC<Props> = ( {
     /* HOOKS */
     // form states
     const focusedInput = useRef<HTMLInputElement>( null ) as FocusedInput;
-    const [ formData, setFormData ] = useState<FormData>( initialFormData );
+    const [ formData, setFormData ] = useState<FormData>( {
+        msg: {
+            value: '',
+            isValid: false,
+        }
+    } );
     const [ isFormComplete, setIsFormComplete ] = useState<boolean>( canFormSubmit );
     const [ disabledInputs, setDisabledInputs ] = useState<DisabledInputs>( initialDisabled );
     // submitting states
