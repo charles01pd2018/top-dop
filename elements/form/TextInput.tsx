@@ -242,7 +242,7 @@ const TextInput = ( {
     }, [ resetTouched ] );
 
     useEffect( () => {
-        handleValidityMsgs();
+        // handleValidityMsgs();
     } );
 
     useEffect( () => {
@@ -263,6 +263,7 @@ const TextInput = ( {
     return (
         <div className={textInputWrapperClasses}>
             <label className={labelClasses} htmlFor={inputID}>
+                Test
                 <input ref={inputRef} id={inputID} className={textInputClasses} type={inputType}
                     onChange={handleChange} onBlur={() => handleBlur()}
                     onFocus={() => handleFocus()} placeholder={actualPlaceholder}
