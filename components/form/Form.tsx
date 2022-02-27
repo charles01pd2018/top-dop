@@ -209,6 +209,8 @@ const Form: FC<Props> = ( {
             {
                 Children.map( children, ( child ) => {
                     const actualFormData = cacheFormData ? cacheFormData : formData;
+                    console.log(cacheFormData);
+                    console.log(actualFormData);
 
                         const inputChild = child as ReactElement<TextInputProps>;
         
