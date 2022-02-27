@@ -84,11 +84,13 @@ const Form: FC<Props> = ( {
         canFormSubmit, 
         initialDisabled,
         expandedConditionalDisabled,
-    } = useMemo( () => initForm( children, { 
+    } = initForm( children, { 
         initialValues,
         conditionalDisabled,
         cacheFormData,
-    } ), [] );
+    } );
+
+    console.log( initialFormData );
 
     /* ERRORS */
     // TO-DO - implement conditionalDisabled errors check
