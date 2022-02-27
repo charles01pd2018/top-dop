@@ -1,0 +1,26 @@
+// transforms icon direction
+// normalize-horizontal makes icon look normal when on horizontal axis
+// start-angle is the icons starting angle direction
+@mixin direction( 
+        $normalize-horizontal: 0,
+        $start-angle: 0,
+) {
+        // 0deg
+        &.up {
+                transform: rotate( -$start-angle );
+        }
+        // -180deg
+        &.down {
+                transform: rotate( -$start-angle - 180deg );
+        }
+        // 90deg
+        &.right {
+                right: $normalize-horizontal ;
+                transform: rotate( 90deg - $start-angle );
+        }
+        // -90deg
+        &.left {
+                left: $normalize-horizontal ;
+                transform: rotate( -$start-angle - 90deg );
+        }
+}

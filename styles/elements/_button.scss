@@ -1,0 +1,42 @@
+// dependencies
+@use 'sass:color';
+
+/*--------------------------------------------------------------
+# Variables
+--------------------------------------------------------------*/
+$button-lg--padding:                1.5rem;
+$button-md--padding:                1.25rem;
+$button-sm--padding:                0.9rem;
+
+$button--default-padding:           0.8rem;
+$button--text-color:                #000;
+
+/*--------------------------------------------------------------
+# Styling
+--------------------------------------------------------------*/
+.button-wrapper {
+    position: relative;
+    overflow: hidden;
+    padding: $button--default-padding;
+    text-shadow: white 0 0 10px;
+    color: $button--text-color;
+
+    &.disabled {
+        $alpha-adjust: -0.5;
+
+        color: color.adjust( $button--text-color, $alpha: $alpha-adjust );
+    }
+}
+
+/* SIZES */
+.button--lg {
+    padding-inline: $button-lg--padding;
+}
+
+.button--md {
+    padding-inline: $button-md--padding;
+}
+
+.button--sm {
+    padding-inline: $button-sm--padding;
+}

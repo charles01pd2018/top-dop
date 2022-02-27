@@ -29,212 +29,31 @@ $text-input--disabled-color:                    lightgray;
             transform: skew( -1deg, -1deg );
         }
     }
-
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 1.2rem;
+    margin-top: 4rem;
 
     .text-input-label {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: $text-input--margin-bottom;
-        z-index: 2;
-        font-size: 85%;
-
-        .text {
-            padding: 0 0.3rem;
-            background: white;
-
-            transition: transform $text-input--transition-time ease;
-        }
-
-        .valid-icon {
-            position: relative;
-            margin-right: $text-input--border-radius;
-
-            transition: opacity $text-input-valid-icon--transition-time ease;
-
-            .text-input-blurb {
-                $width: 10rem;
-
-                position: absolute;
-                top: -50%;
-                left: $text-input--border-radius * 2.5;
-                width: $width;
-                font-size: 85%;
-                color: #000;
-
-                visibility: hidden;
-                opacity: 0;
-                transform: scaleX( 0.9 );
-                transform-origin: left;
-
-                transition: opacity $text-input-valid-icon--transition-time ease,
-                            transform $text-input-valid-icon--transition-time ease,
-                            visibility $text-input-valid-icon--transition-time ease;
-
-                @media ( max-width: $breakpoint--medium ) {
-                    left: -$width * 1.02;
-                    transform-origin: right;
-                }
-            }
-
-            @include tap {
-                .text-input-blurb {
-                    visibility: visible;
-                    opacity: 1;
-                    transform: scaleX( 1 );
-                }
-            }
-        }
-    }
-
-    .text-input {
         $shadow-colors: getShadowColors( map.get( $shadow, 2 ) );
-
-        padding: 0.6rem;
-        outline: 2px solid gray;
-
-        box-shadow: 0 1.5px 2px 1px map.get( $shadow-colors, 2 ),
-                    0 1.5px 2px 1.5px map.get( $shadow-colors, 1 );
+        
+        display: flex;
+        padding-inline: 0.6rem;
+        padding-block: 0.3rem;
 
         transition: transform $text-input--transition-time ease,
                     background $text-input--transition-time ease,
                     outline 0.04s ease;
-
-        &:disabled {
-            // TO-DO - change these colors
-            outline-width: 4px;
-            background: $text-input--disabled-color;
-        }
-
-        &:not( :disabled ) {
-            &:hover {
-                outline-width: 3px;
-            }
-        }
-
-        &::placeholder {
-            font-size: 95%;
-        }
-    }
-
-    /* SHAPE */
-    &.rounded {
-        .text-input-label {
-            margin-left: $text-input--border-radius;
-        }
-
-        .text-input {
-            border-radius: $text-input--border-radius;
-        }
-    }
-
-    /* STATES */
-    &.parent-conditional {
-        // TO-DO - give some indication of parent conditional
-    }
-
-    &.valid {
-        .text-input-label {
-            .valid-icon {
-                color: green;
-            }
-        }
-    }
-
-    &.not-valid {
-        .text-input-label {
-            .valid-icon {
-                color: red;
-            }
-        }
-    }
-
-    &.touched {
-        &.valid,
-        &.not-valid {
-            .text-input-label {
-                .valid-icon {
-                    opacity: 1;
-                }
-            }
-        }
-    }
-
-    &.not-touched {
-        &.valid,
-        &.not-valid {
-            .text-input-label {
-                .valid-icon {
-                    visibility: hidden;
-                }
-            }
-        }
-    }
-
-    &.not-focused {
-        .text-input-label {
-            .valid-icon {
-                opacity: 0;
-
-                transition: opacity $text-input-valid-icon--transition-time ease
-                            $text-input--valid-animation-delay;
-            }
-        }
-
-        &.touched {
-            &.not-valid {
-                .text-input {
-                    &.animate {
-                        animation: shake $text-input--transition-time ease-in-out
-                                $text-input--valid-animation-delay;
-                    }
-                }
-            }
-        }
-    }
-
-    &.focused {
-        &.valid,
-        &.not-valid {
-            .text-input-label {
-                .valid-icon {
-                    opacity: 0;
-
-                    .text-input-blurb {
-                        visibility: hidden;
-                    }
-                }
-            }
-        }
         
-        &.disabled {
-            .text-input-label {
-                .text {
-                    background: $text-input--disabled-color;
-                }
-            }
-        }
-
-        .text-input-label {
-            &.animate {
-                .text {
-                    $translate: $text-input--margin-bottom * 2.5;
-
-                    transform: translate( $translate, $translate );
-                }
-            }
-        }
+        border-top: 2px solid black;
 
         .text-input {
-            &.animate {
-                transform: scaleX( 1.03 );
-            }
+            width: 100%;
+            color: white;
 
-            @include tap {
-                outline: 2px solid map.get( $colors, 'brand-blue', 3 );
+            &::placeholder {
+                color: rgba(255, 255, 255, .5);
             }
+        }
+
+        @include tap {
         }
     }
 }

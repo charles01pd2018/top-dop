@@ -1,3 +1,78 @@
+@use '../utils/position' as *;
+@use '../constants/breakpoints' as *;
+
 .text-message-wrapper {
-    
+    @include center-absolute;
+    top: 30%;
+    width: 60%;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, .2);
+    background: rgba(0, 0, 0, .5);
+    border-radius: 20px;
+
+    .bot-strip {
+        display: flex;
+        align-items: center;
+
+        background: rgba(0, 0, 0, 0.2);
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+
+        padding: 0.6rem;
+        padding-inline: 1rem;
+
+        .image {
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.24);
+        }
+
+        .text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding-left: 0.7rem;
+            text-align: left;
+
+            * {
+                margin: 0;
+                padding: 0;
+            }
+
+            .desc {
+                color: rgba(255, 255, 255, .5);
+            }
+        }
+    }
+
+    .messages {
+        flex: 1 1 auto;
+        color: rgba(255, 255, 255, .5);
+        overflow: hidden;
+        position: relative;
+        width: 100%;
+
+        .content {
+            padding: 1rem;
+            // position: absolute;
+            // top: 0;
+            // left: 0;
+            // height: 101%;
+            // width: 100%;
+        }
+    }
+
+    @media ( max-width: $breakpoint--large ) {
+        width: 90%;
+    }
+}
+
+.bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    // background: url('https://images.unsplash.com/photo-1451186859696-371d9477be93?crop=entropy&fit=crop&fm=jpg&h=975&ixjsv=2.1.0&ixlib=rb-0.3.5&q=80&w=1925') no-repeat 0 0;
+    background: lightblue;
+    // filter: blur(80px);
 }

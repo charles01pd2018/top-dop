@@ -27,6 +27,7 @@ const Home = ( {
       </Head>
         <DefaultLayout>
           <TextMessage id='yuhurd' />
+            <div className='bg' role='presentation' />
         </DefaultLayout>
     </>
   );

@@ -1,0 +1,105 @@
+// dependencies
+@use 'sass:math';
+// mixins
+@use './direction' as *;
+@use '../utils/selectors' as *;
+// utils
+@use '../utils/selectors' as *;
+@use '../utils/position' as *;
+
+/*--------------------------------------------------------------
+# Variables
+--------------------------------------------------------------*/
+$chevron--thickness:            0.17em;
+$chevron--length:               0.8em;
+$chevron--border-radius:        10px;
+$chevron--color:                black;
+ // normalize left and right chevron to look cleaner
+$chevron--normalize:            math.div( $chevron--length, 3 ); 
+
+/*--------------------------------------------------------------
+# Styling
+--------------------------------------------------------------*/
+.chevron-wrapper {
+    @include tap {
+        transform: translate( 20px, 20px );
+    }
+
+    .chevron {
+        width: $chevron--length;
+        height: $chevron--length;
+
+        transition: transform 0.22s ease;
+
+        /* TRANSITION */
+        // TO-DO - THIS IS NOT PRODUCTION READY
+        &.flip {
+            display: block;
+            border-style: solid;
+            border-width: $chevron--thickness $chevron--thickness 0 0;
+            border-color: $chevron--color;
+
+            @include direction( $normalize-horizontal: $chevron--normalize,
+                                $start-angle: 45deg );
+
+            // flip chevron direction to up
+            &.active {
+                transform: rotate( -45deg );
+            }
+        }
+
+        &.x-out {
+            $height: $chevron--length * 0.9;
+
+            display: block;
+            position: relative;
+            height: $height;
+
+            /* STYLING */
+            &.rounded {
+                @include adjacent {
+                    border-radius: $chevron--border-radius;
+                }
+            }
+
+            @include adjacent {
+                content: "";
+                position: absolute;
+                width: 60%;
+                height: math.div( $chevron--length, 5 );
+                background: $chevron--color;
+
+                $transition-timing: 0.17s ease-in-out;
+                transition: transform $transition-timing,
+                            background $transition-timing;
+            }
+
+            &:before {
+                top: math.div( $chevron--length, 2 );
+                left: 0;
+                transform: translate( -50%, -50% ) rotate( 40deg );
+            }
+
+            &:after {
+                top: math.div( $chevron--length, 2 );
+                left: math.div( $height, 2.5 );
+                transform: translate( -50%, -50% ) rotate( 140deg );
+
+            }
+
+            &.active {
+                &:before {
+                    width: $height;
+                    left: math.div( $chevron--length, 25 );
+                    transform: translate( -35%, -50% ) rotate( 225deg );
+                }
+    
+                &:after {
+                    width: $height;
+                    left: math.div( $chevron--length, 25 );
+                    transform: translate( -35%, -50% ) rotate( 320deg );
+                }
+            }
+        }
+    }
+}

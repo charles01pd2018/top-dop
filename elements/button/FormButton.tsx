@@ -1,6 +1,6 @@
 // elements
 import Ripple from './Ripple';
-
+import { Chevron } from '../icon';
 
 /* TYPES */
 export interface Content {
@@ -33,7 +33,7 @@ const FormButton = ( {
     isDisabled=false,
     ariaLabel,
     type='submit',
-    size='md',
+    size='sm',
     color='blue',
     fill,
     isRounded=true,
@@ -43,11 +43,6 @@ const FormButton = ( {
 
     /* CONTENT */
     const { text } = content;
-
-    /* ACCESSIBILITY */
-    const loaderAriaLabel = `${ariaLabel} loader`;
-    const successAriaLabel = `${ariaLabel} submitted`;
-    const failAriaLabel = `${ariaLabel} failed to submit`;
 
     const disabled = isDisabled;
 
@@ -67,8 +62,8 @@ const FormButton = ( {
 
     return (
         <button className={buttonClasses} aria-label={ariaLabel}
-            type={type} disabled={disabled}>
-            <span className='form-button-text'>{text}</span>
+            type={type} disabled={disabled} title={text}>
+                <Chevron ariaLabel={text} />
             {
                 click === 'ripple' && (
                     <Ripple />

@@ -260,17 +260,6 @@ const Form: FC<Props> = ( {
                         return child;
                 } )
             }
-            <div className='submit-button-wrapper'>
-                <FormButton className={buttonClassName} content={buttonContent}
-                    ariaLabel={buttonAriaLabel} isDisabled={isSubmitting || !isFormComplete}
-                    {...restButtonProps} />
-            </div>
-            {
-                // TO-DO - add overall form loader
-                isSubmitting && (
-                    <span className='loader' role='presentation' />
-                )
-            }
         </form>
     )
 }

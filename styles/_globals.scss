@@ -1,19 +1,8 @@
-// constants
-@use './constants/fontStyles' as *;
-
 /*--------------------------------------------------------------
 # Styling
 --------------------------------------------------------------*/
 html,
 body {
   margin: 0;
-  // font-family: $main-font, Verdana;
   font-family: 'ABeeZee', Verdana; // variables defined in './branding/typography'
-  // scroll-behavior: smooth;
 }
-
-main.site-content {
-  // text-align: center;
-}
-
-// add other customer fonts with classNames here...

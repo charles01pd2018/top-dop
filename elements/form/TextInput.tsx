@@ -4,11 +4,10 @@ import { useState, useRef, ChangeEvent, useEffect } from 'react';
 import { useAfterEffect } from '../../hooks';
 // lib
 import { toTitleCase } from '../../lib';
-// elements
-import Blurb from './Blurb';
 // partials
-import Required from './Required';
 import { handleTextInputValidityMsgs } from './handleValidityMsgs';
+// elements
+import { FormButton } from '../button';
 // constants
 import { EMAIL_VALIDATION, PASSWORD_VALIDATION,
     USERNAME_VALIDATION } from 'lib';
@@ -138,9 +137,6 @@ const TextInput = ( {
 
     if ( inputName === undefined )
         throw( SyntaxError( 'If type is text, a name must be provided for the input' ) );
-        
-    if ( inputLabel === undefined )
-        throw( SyntaxError( 'If type is text, a name must be provided for the input for accessibility purposes' ) );
 
     if ( onChange === undefined && cache === undefined )
         throw( SyntaxError( 'onChange function or cache not specified - use built in Form OR CacheForm wrapper component' ) );
@@ -282,39 +278,17 @@ const TextInput = ( {
     return (
         <div className={textInputWrapperClasses}>
             <label className={labelClasses} htmlFor={inputID}>
-                <div className='text'>
-                    {inputLabel}
-                    {
-                        showRequired && inputRequired && (
-                            <Required />
-                        )
-                    }
-                </div>
-                {
-                    animate && showValid && (
-                        <div className='valid-icon' role='presentation' 
-                            aria-label={`${inputName} ${isValidClasses} icon`} 
-                            aria-hidden={!touched && !focused}>
-                            {isValid ? ' ✓' : ' ✖'}
-                            {
-                                inputRef.current?.validationMessage !== '' &&
-                                !isValid && (
-                                    <Blurb className='text-input-blurb' 
-                                        color={isValid ? 'green' : 'pink'}>
-                                        {inputRef.current?.validationMessage}
-                                    </Blurb>
-                                )
-                            }
-                        </div>
-                    )
-                }
+                <input ref={inputRef} id={inputID} className={textInputClasses} type={inputType}
+                    onChange={handleChange} onBlur={() => handleBlur()}
+                    onFocus={() => handleFocus()} placeholder={actualPlaceholder}
+                    name={inputName} value={value} required={inputRequired}
+                    disabled={disabled} autoFocus={autoFocus} maxLength={maxLength}
+                    autoComplete='off' {...rest} />
+                      <FormButton content={{
+                        text: 'Send'
+                        }} />
             </label>
-            <input ref={inputRef} id={inputID} className={textInputClasses} type={inputType}
-                onChange={handleChange} onBlur={() => handleBlur()}
-                onFocus={() => handleFocus()} placeholder={actualPlaceholder}
-                name={inputName} value={value} required={inputRequired}
-                disabled={disabled} autoFocus={autoFocus} maxLength={maxLength}
-                autoComplete='off' {...rest} />
+          
         </div>
     )
 }
