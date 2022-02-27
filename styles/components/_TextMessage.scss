@@ -17,7 +17,6 @@
 
 
 .text-message-wrapper {
-    overflow: hidden;
     @include center-absolute;
     width: 60%;
     top: 40%;
@@ -60,14 +59,18 @@
         }
     }
 
-    overflow: hidden;
-    overflow-y: auto;
+    .text-input-wrapper {
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+    }
 
     .messages {
         flex: 1 1 auto;
         color: rgba(255, 255, 255, .5);
         overflow: hidden;
         overflow-y: auto;
+        max-height: 70%;
 
         .message {
             clear: both;

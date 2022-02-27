@@ -22,10 +22,10 @@ $scroll-bar-thumb--border-radius:   20px;
 }
 
 ::-webkit-scrollbar-track {
-    background: $scrollbar--background-color; // background color of the scroll bar
+    // background: $scrollbar--background-color; // background color of the scroll bar
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: $scrollbar-thumb--color; // color of the scroll thumb
-    border-radius: $scroll-bar-thumb--border-radius; // roundness of the scroll thumb
+    // background-color: $scrollbar-thumb--color; // color of the scroll thumb
+    // border-radius: $scroll-bar-thumb--border-radius; // roundness of the scroll thumb
 }
