@@ -1,5 +1,3 @@
-import Text from './text';
-
-export {
-    Text,
-}
+export * from './button';
+export * from './form';
+export * from './icon';

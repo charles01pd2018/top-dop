@@ -11,7 +11,7 @@ $header-tags: ( 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' );
 $header-scale: 0.95; // how much each subsequent header will decrease in size
 
 $paragraph-size: ( 1.02em, 1.27vw, 1.21em );
-$text-classnames: ( 'text-norm', 'text-sm', 'text-xs', 'text-xxs' );
+$text-classnames: ( 'text-norm', 'text-sm', 'text-xs', 'text-xxs', 'text-xxxs' );
 $text-scale: 0.95; // how much each subsequent text classname will decrease in size
 
 /*--------------------------------------------------------------
@@ -66,17 +66,26 @@ $text-size: $paragraph-size;
     );
 }
 
+.sent-msg {
+    font-family: 'AmaticSC';
+}
+
 /*--------------------------------------------------------------
 # CUSTOM FONTS - Font Family
 --------------------------------------------------------------*/
-// @each $font-name, $font-style in $font-names {
-//     @font-face {
-//         font-family: $font-name;
-//         src: url('/static/fonts/#{$font-name}/#{$font-name}-#{$font-style}.ttf');
-//         font-style: normal;
-//         font-display: block;
-//     }
-// }
+@font-face {
+    font-family: "ABeeZee";
+    src: url("/static/fonts/ABeeZee-Regular.ttf");
+    font-style: normal;
+    font-display: swap;
+}
+  
+@font-face {
+    font-family: "AmaticSC";
+    src: url("/static/fonts/AmaticSC-Bold.ttf");
+    font-style: normal;
+    font-display: swap;
+}
 
 /*--------------------------------------------------------------
 # Helper

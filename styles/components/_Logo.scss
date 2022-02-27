@@ -1,0 +1,7 @@
+@use '../utils/position' as *;
+
+.logo {
+    @include center-absolute;
+    top: 75%;
+    z-index: -1;
+}

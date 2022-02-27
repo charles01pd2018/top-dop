@@ -1,0 +1,187 @@
+// dependencies
+@use 'sass:string';
+@use 'sass:map';
+@use 'sass:color';
+// constants
+@use '../constants/colors' as *;
+// utils
+@use '../utils/selectors' as *;
+@use '../utils/colors' as *;
+@use '../utils/position' as *;
+
+/*--------------------------------------------------------------
+# Variables
+--------------------------------------------------------------*/
+$form-button--border-radius:            5px;
+
+$form-button--transition:               0.24s ease;
+
+// DARKER box-shadow size
+$form-button--box-shadow-size2:         1px 1px 2px;
+// LIGHTER box-shadow size
+$form-button--box-shadow-size1:         1px 1px 4px 0.35px;
+
+/*--------------------------------------------------------------
+# Styling
+--------------------------------------------------------------*/
+.form-button-wrapper {
+    mix-blend-mode: luminosity;
+
+    transition: color $form-button--transition,
+                background $form-button--transition,
+                box-shadow $form-button--transition;
+
+    .form-button-text {
+        transition: opacity $form-button--transition;
+    }
+
+    /* SHAPE */
+    &.rounded {
+        border-radius: 50%;
+    }
+
+    .chevron-wrapper {
+        position: relative;
+        top: 20%;
+    }
+
+    /* PARTIALS */
+    .ripple-wrapper {
+        @include zero-absolute;
+
+        .ripple {
+            @keyframes ripple {
+                to {
+                    opacity: 0;
+                    transform: scale(2.5);
+                }
+            }
+
+            transform: scale(0);
+            border-radius: 100%;
+            position: absolute;
+            opacity: 0.75;
+            background: #ffffff;
+            animation: ripple ease-out;
+        }
+    }
+
+    /* HOVER TYPES */
+    // moves button up and adds spread-radius to box-shadow
+    &.lift {
+        transition: transform $form-button--transition,
+                    box-shadow $form-button--transition;
+         @include tap {
+            transform: translateY( -2.5px );
+         }
+    }
+
+    // real world button-press effect
+    &.press {
+        transition: box-shadow 0.35s ease;
+    }
+
+    // pulsing outward effect
+    &.pulse {
+        transition: box-shadow 0.22s ease;
+    }
+
+    // subtle color glimmer shift effect
+    &.glimmer {
+        transition: box-shadow 0.37s ease;
+
+        // line that creates the glimmer effect
+        &::after {
+            content: '';
+            display: block;
+            position: absolute;
+            background: rgba(255, 255, 255, 0.5);
+            width: 30px;
+            height: 100%;
+            top: 0;
+            filter: blur( 5px );
+            transform: translateX(-100px) skewX(-15deg);
+        }
+
+         @include tap {                
+            &::after {
+                transition: transform 0.7s ease;
+                // move the line over the button
+                transform: translateX(150px) skewX(-15deg);
+            }
+        }
+    }
+
+    /* COLORS */
+    @each $color, $color-map in $colors {
+        &.#{$color} {
+            $background: map.get( $color-map, 2 );
+            $shadow-colors: getShadowColors( map.get( $color-map, 2 ) );
+            $box-shadow: $form-button--box-shadow-size2 map.get( $shadow-colors, 2 ),
+                            $form-button--box-shadow-size1 map.get( $shadow-colors, 1 );
+
+            background: $background;
+            box-shadow: $box-shadow;
+
+            /* STATES */
+            &.disabled {
+                $alpha-adjust: -0.5;
+                $box-shadow-color--2: color.adjust( 
+                                    map.get( $shadow-colors, 2 ), $alpha: $alpha-adjust );
+                $box-shadow-color--1: color.adjust( 
+                                    map.get( $shadow-colors, 1 ), $alpha: $alpha-adjust );
+                
+                background: color.adjust( $background, $alpha: $alpha-adjust );
+                box-shadow: $form-button--box-shadow-size2 $box-shadow-color--2,
+                            $form-button--box-shadow-size1 $box-shadow-color--1;
+            }
+
+            /* FILL TYPES */
+            // adds a subtle radial gradient at the top left corner of the button
+            &.gradient {
+                $light-gradient: color.adjust( map.get( $color-map, 2 ), $lightness: 12% );
+                background: radial-gradient( 
+                            farthest-corner at 0 0, 
+                            $light-gradient,
+                            map.get( $color-map, 2 ), 
+                        );
+            }
+
+            /* HOVER TYPES */
+            &.lift {
+                @include tap {
+                    box-shadow: $form-button--box-shadow-size2 map.get( $shadow-colors, 2 ),
+                                1px 1px 6px 1.5px map.get( $shadow-colors, 1 );
+                }
+            }
+            &.press {
+                @include tap {
+                    box-shadow: $box-shadow,
+                                inset 1px 1px 6px map.get( $shadow-colors, 2 ),
+                                inset 1px 1px 4px map.get( $shadow-colors, 1 );
+                }
+            }
+            &.pulse {
+                @include tap {
+                    box-shadow: 1px 1px 1.5px 0.3px map.get( $shadow-colors, 2 ),
+                                1px 1px 3px 2.2px map.get( $shadow-colors, 1 );
+                }
+            }
+
+            &.glimmer {
+                &:focus {
+                    box-shadow: 1px 1px 2px 0.3px map.get( $shadow-colors, 2 ),
+                                    1px 1px 4px 3px map.get( $shadow-colors, 1 );
+                }
+            }
+        }
+    }
+
+    /* STATES */
+    &.success,
+    &.fail {
+        .form-button-text {
+            opacity: 0;
+        }
+    }
+}

@@ -1,0 +1,61 @@
+// dependencies
+@use 'sass:map';
+// constants
+@use '../constants/colors' as *;
+@use '../constants/breakpoints' as *;
+// utils
+@use '../utils/colors' as *;
+@use '../utils/selectors' as *;
+
+/*--------------------------------------------------------------
+# Variables
+--------------------------------------------------------------*/
+$text-input--border-radius:                     7px;
+$text-input--margin-bottom:                     0.25rem;
+$text-input--transition-time:                   0.24s;
+$text-input-valid-icon--transition-time:        0.15s;
+$text-input--valid-animation-delay:             $text-input--transition-time * 0.7;
+$text-input--disabled-color:                    lightgray;
+
+/*--------------------------------------------------------------
+# Styling
+--------------------------------------------------------------*/
+.text-input-wrapper {
+    @keyframes shake {
+        33% {
+            transform: skew( 1deg, 1deg );
+        }
+        66% {
+            transform: skew( -1deg, -1deg );
+        }
+    }
+
+    .text-input-label {
+        $shadow-colors: getShadowColors( map.get( $shadow, 2 ) );
+        
+        display: flex;
+        padding-inline: 0.6rem;
+        padding-block: 0.3rem;
+
+        transition: transform $text-input--transition-time ease,
+                    background $text-input--transition-time ease,
+                    outline 0.04s ease;
+        
+        background: rgba(0, 0, 0, 0.3);
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        border-top: 2px solid black;
+
+        .text-input {
+            width: 100%;
+            color: white;
+
+            &::placeholder {
+                color: rgba(255, 255, 255, .5);
+            }
+        }
+
+        @include tap {
+        }
+    }
+}
