@@ -4,14 +4,14 @@ import { ReactNode, Children, ReactElement } from 'react';
 import checkValid from './checkValid';
 // lib
 import { isObjectEmpty, validateChild,
-    USERNAME_VALIDATION, EMAIL_VALIDATION, PASSWORD_VALIDATION } from 'lib';
-// constants
-import { REQUIRED_TYPES } from './constants';
+    USERNAME_VALIDATION, EMAIL_VALIDATION, PASSWORD_VALIDATION } from '../../lib';
 // types
 import { ConditionalDisabled, InitialValues,
     DisabledInputs } from './types';
 import type { FormData } from 'types';
-import type { TextInputProps, TextInputTypes } from 'elements/form/types';
+import type { TextInputProps, TextInputTypes } from '../../elements/form/types';
+// constants
+import { REQUIRED_TYPES } from './constants';
 
 
 /* TYPES */
@@ -21,6 +21,16 @@ interface Options {
     conditionalDisabled?: ConditionalDisabled;
     setTouched?: boolean;
     cacheFormData?: FormData;
+}
+
+export type SharedProps = TextInputProps;
+
+interface TextInputPropsWithChildren extends TextInputProps {
+    children: ReactNode;
+}
+
+interface DependentInputPropsWithChildren {
+    children: ReactNode;
 }
 
 type FieldSetOptions = {
@@ -65,70 +75,84 @@ const initForm = (
             const validation = validateChild( child );
 
             /* FORM CHILDREN */
-            if ( validation === 'TextInput' ) {
-                const sharedChild = child as ReactElement<TextInputProps>;
+            if ( validation === 'FieldSet' || validation === 'TextInput' ) {
+                const sharedChild = child as ReactElement<SharedProps>;
                 let childInputs: ( string[] | undefined ) = undefined;
                 const name = sharedChild.props.name || sharedChild.props.type;
 
                 if ( IS_CONDITIONAL )
                     childInputs = conditionalDisabled[ name ];
                 
-                /* OPTIONS */
-                const { prevFieldSetChildInputs } = fieldSetOptions;
+                if ( validation === 'FieldSet' ) {
+                    const fieldSetChild = child as ReactElement<TextInputPropsWithChildren>;
+    
+                    return initChildren( fieldSetChild.props.children, {
+                        prevFieldSetChildInputs: childInputs,
+                    } );
+                }
 
-                /* HELPER FUNCTIONS */
-                const handleFormFeatures = ( 
-                    isValid: boolean,
-                    formData: FormData,
-                ) => {
-                    if ( !isValid ) {
-                        canFormSubmit = false;
-            
-                        if ( prevFieldSetChildInputs ) {
-                            expandedConditionalDisabled[ name ] = prevFieldSetChildInputs;
-                            prevFieldSetChildInputs.forEach( 
-                                input => initialDisabled.add( input ) );
+                if ( validation === 'TextInput' ) {
+                    /* OPTIONS */
+                    const { prevFieldSetChildInputs } = fieldSetOptions;
+
+                    /* HELPER FUNCTIONS */
+                    const handleFormFeatures = ( 
+                        isValid: boolean,
+                        formData: FormData,
+                    ) => {
+                        if ( !isValid ) {
+                            canFormSubmit = false;
+                
+                            if ( prevFieldSetChildInputs ) {
+                                expandedConditionalDisabled[ name ] = prevFieldSetChildInputs;
+                                prevFieldSetChildInputs.forEach( 
+                                    input => initialDisabled.add( input ) );
+                            }
                         }
+
+                        if ( setTouched )
+                            formData[ name ].resetTouched = true;
                     }
 
-                    if ( setTouched )
-                        formData[ name ].resetTouched = true;
-                }
-
-                if ( cacheFormData === undefined ) {
-                    const inputChild = child as ReactElement<TextInputProps>;
-
-                    const initValue = initialValues[ name ];
-                    const value = ignoreChildValues ? '' : initValue ? initValue :
-                        inputChild.props.content?.value || '';
-                    const type: TextInputTypes = inputChild.props.type;
-                    const required = inputChild.props.required || REQUIRED_TYPES.includes ( type ) ?
-                        true : false;
-                    const match = inputChild.props.match;
+                    if ( cacheFormData === undefined ) {
+                        const inputChild = child as ReactElement<TextInputProps>;
     
-                    let isValid: boolean;
-                    if ( type === 'username' )
-                        isValid = required ? checkValid( value, USERNAME_VALIDATION, { match } ) : true;
-                    else if ( type === 'email' )
-                        isValid = required ? checkValid( value, EMAIL_VALIDATION, { match } ) : true;
-                    else if ( type === 'password' )
-                        isValid = required ? checkValid( value, PASSWORD_VALIDATION, { match } ) : true;
-                    else
-                        isValid = required ? value !== '' : true;
+                        const initValue = initialValues[ name ];
+                        const value = ignoreChildValues ? '' : initValue ? initValue :
+                            inputChild.props.content?.value || '';
+                        const type: TextInputTypes = inputChild.props.type;
+                        const required = inputChild.props.required || REQUIRED_TYPES.includes ( type ) ?
+                            true : false;
+                        const match = inputChild.props.match;
         
-                    initialFormData[ name ] = {
-                        value,
-                        isValid,
-                    };
-                    
-                    handleFormFeatures( isValid, initialFormData );
-                    console.log( 'hi' );
+                        let isValid: boolean;
+                        if ( type === 'username' )
+                            isValid = required ? checkValid( value, USERNAME_VALIDATION, { match } ) : true;
+                        else if ( type === 'email' )
+                            isValid = required ? checkValid( value, EMAIL_VALIDATION, { match } ) : true;
+                        else if ( type === 'password' )
+                            isValid = required ? checkValid( value, PASSWORD_VALIDATION, { match } ) : true;
+                        else
+                            isValid = required ? value !== '' : true;
+            
+                        initialFormData[ name ] = {
+                            value,
+                            isValid,
+                        };
+                        
+                        handleFormFeatures( isValid, initialFormData );
+                    }
+                    else
+                        handleFormFeatures( 
+                            cacheFormData[ name ].isValid, cacheFormData );
                 }
-                else
-                    handleFormFeatures( 
-                        cacheFormData[ name ].isValid, cacheFormData );
             }
 
+            if ( validation === 'DependentInputs' ) {
+                const depdendentInputsChild = child as ReactElement<DependentInputPropsWithChildren>;
+
+                return initChildren( depdendentInputsChild.props.children );
+            }
         } );    
     }
 
