@@ -20,29 +20,29 @@ interface Msgs {
     loading?: boolean;
 }
 
-const getBotResponse = async ( input: Input ) => {
-    const response = await fetch(`https://api.mage.ai/v1/predict`, {
-        method: 'POST',
-        body: JSON.stringify( {
-            "api_key": process.env.NEXT_PUBLIC_MAGE_API_TOKEN,
-            "model": "custom_prediction_classification_1645944796136",
-            "version": "1",
-            features: [
-                {
-                "id": 274228
-                },
-                {
-                "id": 259202
-                }
-            ],
-        } ),
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    } );
+// const getBotResponse = async ( input: Input ) => {
+//     const response = await fetch(`https://api.mage.ai/v1/predict`, {
+//         method: 'POST',
+//         body: JSON.stringify( {
+//             "api_key": process.env.NEXT_PUBLIC_MAGE_API_TOKEN,
+//             "model": "custom_prediction_classification_1645944796136",
+//             "version": "1",
+//             features: [
+//                 {
+//                 "id": 274228
+//                 },
+//                 {
+//                 "id": 259202
+//                 }
+//             ],
+//         } ),
+//         headers: {
+//             'Content-Type': 'application/json',
+//         },
+//     } );
 
-    return response.json();
-}
+//     return response.json();
+// }
 
 const TextMessage = ( {
     id,
@@ -81,8 +81,6 @@ const TextMessage = ( {
             ];
         } );
 
-        console.log( await getBotResponse( input ) );
-
         setTimeout( () => {
             setIsBotResponding( true );
 
@@ -117,7 +115,6 @@ const TextMessage = ( {
     }
 
     const initBot = () => {
-        console.log( 'hi' );
         setMsgs( [
             {
                 type: 'bot',
