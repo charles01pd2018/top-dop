@@ -4,8 +4,8 @@ const Logo = () => {
 
     return (
         <section className='logo'>
-            <Image width={512} height={256} 
-                src='/static/images/banner.png' />
+            <Image width={400} height={400} 
+                src='/static/images/logo.png' />
         </section>
     )
 }
