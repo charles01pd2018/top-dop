@@ -3,7 +3,7 @@ import Head from 'next/head';
 // layout
 import { DefaultLayout } from 'layout';
 // components
-import { TextMessage } from 'components';
+import { TextMessage, Logo } from 'components';
 
 /* TYPES */
 interface Content {
@@ -28,6 +28,7 @@ const Home = ( {
         <DefaultLayout>
           <TextMessage id='yuhurd' />
             <div className='bg' role='presentation' />
+          <Logo />
         </DefaultLayout>
     </>
   );

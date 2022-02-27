@@ -20,6 +20,30 @@ interface Msgs {
     loading?: boolean;
 }
 
+const getBotResponse = async ( input: Input ) => {
+    const response = await fetch(`https://api.mage.ai/v1/predict`, {
+        method: 'POST',
+        body: JSON.stringify( {
+            "api_key": process.env.NEXT_PUBLIC_MAGE_API_TOKEN,
+            "model": "custom_prediction_classification_1645944796136",
+            "version": "1",
+            features: [
+                {
+                "id": 274228
+                },
+                {
+                "id": 259202
+                }
+            ],
+        } ),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    } );
+
+    return response.json();
+}
+
 const TextMessage = ( {
     id,
     className='',
@@ -46,7 +70,7 @@ const TextMessage = ( {
         placeholder: 'Send a Msg!'
     }
 
-    const onSubmit: FormOnSubmit<Input> = ( input ) => {
+    const onSubmit: FormOnSubmit<Input> = async ( input ) => {
         setMsgs( ( state ) => {
             return [
                 ...state,
@@ -57,8 +81,11 @@ const TextMessage = ( {
             ];
         } );
 
+        console.log( await getBotResponse( input ) );
 
         setTimeout( () => {
+            setIsBotResponding( true );
+
             setMsgs( ( state ) => {
                 return [
                     ...state,
@@ -79,6 +106,8 @@ const TextMessage = ( {
                         }
                     ]
                 } )
+
+                setIsBotResponding( false );
             }, 1000 );
         }, 500 )
         // add a bot msg with the className 'loading'
@@ -168,10 +197,10 @@ const TextMessage = ( {
                 </div>
             </div>
             <Form id='text-msg-form' name='testMsgForm' onSubmit={onSubmit}
-                buttonProps={buttonProps}>
+                buttonProps={buttonProps} keepFocus={true}>
                 <TextInput id='msg' name='msg' type='text'
                     content={textInputContent} animate={false} maxLength={50}
-                    required disabled={isBotResponding} />
+                    required disabled={isBotResponding} autoFocus={true} />
             </Form>
         </section>
     )
