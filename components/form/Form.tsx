@@ -208,16 +208,14 @@ const Form: FC<Props> = ( {
             onSubmit={( event: FormEvent ) => onFormSubmit( event, formData )}>
             {
                 Children.map( children, ( child ) => {
-                    const actualFormData = cacheFormData ? cacheFormData : formData;
-                    console.log("cache " + cacheFormData);
-                    console.log("actual form " + actualFormData);
+                    const actualFormData = formData;
 
                         const inputChild = child as ReactElement<TextInputProps>;
         
                         const type = inputChild.props.type;
                         if ( updateCache && type === PASSWORD )
                             throw( SyntaxError( 'Password inputs are not allowed to be in cached forms' ) );
-                        console.log("check1: " + formData[inputChild.props.name || type]);
+
                         const name = inputChild.props.name || type;
                         const prevContent = inputChild.props.content;
                         const inputData = actualFormData[ name ];
