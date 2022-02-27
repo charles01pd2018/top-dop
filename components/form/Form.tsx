@@ -219,7 +219,8 @@ const Form: FC<Props> = ( {
                         const name = inputChild.props.name || type;
                         const prevContent = inputChild.props.content;
                         const inputData = actualFormData[ name ];
-                        const resetTouched = inputData.resetTouched;
+                        console.log( inputData );
+                        const resetTouched = inputData?.resetTouched;
         
                         const config: TextInputConfig = {
                             content: {
