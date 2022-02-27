@@ -208,10 +208,8 @@ const Form: FC<Props> = ( {
             onSubmit={( event: FormEvent ) => onFormSubmit( event, formData )}>
             {
                 Children.map( children, ( child ) => {
-                    const validation = validateChild( child );
                     const actualFormData = cacheFormData ? cacheFormData : formData;
 
-                    if ( validation === 'TextInput' ) {
                         const inputChild = child as ReactElement<TextInputProps>;
         
                         const type = inputChild.props.type;
@@ -252,10 +250,6 @@ const Form: FC<Props> = ( {
                             config.autoFocus = true;
 
                         return cloneElement( inputChild, config );
-                    }
-        
-                    if ( validation === true )
-                        return child;
                 } )
             }
         </form>
