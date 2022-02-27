@@ -131,24 +131,6 @@ const TextInput = ( {
         inputRequired = required !== undefined ? required : false;
     }
 
-    /* ERRORS - these can be removed in production */ 
-    if ( inputID === undefined )
-        throw( SyntaxError( 'If type is text, an ID must be provided for the input' ) );
-
-    if ( inputName === undefined )
-        throw( SyntaxError( 'If type is text, a name must be provided for the input' ) );
-
-    if ( onChange === undefined && cache === undefined )
-        throw( SyntaxError( 'onChange function or cache not specified - use built in Form OR CacheForm wrapper component' ) );
-
-    if ( checkFormStatus === undefined )
-        throw( SyntaxError( 'checkFormStatus function not specified - use built in Form wrapper component' ) );
-    
-    if ( checkValid === undefined )
-        throw( SyntaxError( 'checkValid function not specified - use built in Form wrapper component' ) );
-
-    if ( isValid === undefined )
-        throw( SyntaxError( 'isValid value not specified - use built in Form wrapper component' ) );
 
     /* FUNCTIONS */
     const setFormState = ( 
@@ -180,6 +162,7 @@ const TextInput = ( {
     const handleChange = ( event: ChangeEvent<HTMLInputElement> ) => {
         const newValue = event.target.value;
         const newValid = inputRequired ? 
+            // @ts-ignore
             checkValid( newValue, inputPattern, { match } ) : true;
 
         setFormState( newValid, newValue );
@@ -246,6 +229,7 @@ const TextInput = ( {
 
     // check the form status everytime isValid changes EXCEPT on initial render
     useAfterEffect( () => {
+         // @ts-ignore
         checkFormStatus( isParentDisabled ? isParentDisabled : false );
 
         if ( isValid )
@@ -268,6 +252,7 @@ const TextInput = ( {
 
     if ( match ) {
         useAfterEffect( () => {
+            // @ts-ignore
             const newValid = inputRequired ? checkValid( value, inputPattern, { match } ) : true;
 
             if ( newValid !== isValid )
