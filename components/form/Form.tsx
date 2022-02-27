@@ -217,7 +217,7 @@ const Form: FC<Props> = ( {
                         const type = inputChild.props.type;
                         if ( updateCache && type === PASSWORD )
                             throw( SyntaxError( 'Password inputs are not allowed to be in cached forms' ) );
-
+                        console.log("check1: " + formData[inputChild.props.name || type]);
                         const name = inputChild.props.name || type;
                         const prevContent = inputChild.props.content;
                         const inputData = actualFormData[ name ];
