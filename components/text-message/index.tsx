@@ -2,11 +2,22 @@ import { Form } from '../form';
 import { TextInput } from 'elements';
 import Image from 'next/image';
 import { useState, useRef, useEffect } from 'react';
+import type { FormOnSubmit } from 'components/form/types';
 
 
 interface Props {
     id: string;
     className?: string;
+}
+
+interface Input {
+    msg: string;
+}
+
+interface Msgs {
+    type: 'bot' | 'user';
+    text?: string;
+    loading?: boolean;
 }
 
 const TextMessage = ( {
@@ -16,8 +27,8 @@ const TextMessage = ( {
 
     const imageURL = useRef<string>( '/static/images/bot.jpg' );
     // TO-DO - store this in the cache with dexie
-    const [ userMsgs, setUserMsgs ] = useState<string[]>( [] );
-    const [ botMsgs, setBotMsgs ] = useState<string[]>( [] );
+    const [ msgs, setMsgs ] = useState<Msgs[]>( [] );
+    const [ isBotResponding, setIsBotResponding ] = useState<boolean>( false );
 
     const classes = `
         text-message-wrapper
@@ -35,18 +46,79 @@ const TextMessage = ( {
         placeholder: 'Send a Msg!'
     }
 
-    const onSubmit = ( input: any ) => {
-        // add a bot msg with the className 'loading'
+    const onSubmit: FormOnSubmit<Input> = ( input ) => {
+        setMsgs( ( state ) => {
+            return [
+                ...state,
+                {
+                    type: 'user',
+                    text: input.msg,
+                },
+            ];
+        } );
 
+
+        setTimeout( () => {
+            setMsgs( ( state ) => {
+                return [
+                    ...state,
+                    {
+                        type: 'bot',
+                        loading: true,
+                    },
+                ];
+            } )
+
+            setTimeout( () => {
+                setMsgs( ( state ) => {
+                    return [
+                        ...state.slice( 0, -1 ),
+                        {
+                            type: 'bot',
+                            text: 'Har har har',
+                        }
+                    ]
+                } )
+            }, 1000 );
+        }, 500 )
+        // add a bot msg with the className 'loading'
         // await the request to the MAGE API
 
         // set the bot msg to the actual text
+    }
+
+    const initBot = () => {
+        console.log( 'hi' );
+        setMsgs( [
+            {
+                type: 'bot',
+                loading: true,
+            },
+        ] );
+
+        setIsBotResponding( true );
+
+        setTimeout( () => {
+            setMsgs( [
+                {
+                    type: 'bot',
+                    text: "What's good blood"
+                }
+            ] );
+
+            setIsBotResponding( false );
+        }, 2000 );
     }
 
     // useEffect( () => {
     //     // await the request to the MAGE API
 
     // }, [ botMsgs ] );
+
+    useEffect( () => {
+        if ( msgs.length === 0 )
+            initBot();
+    }, [] );
 
     return (
         <section id={id} className={classes}>
@@ -61,16 +133,45 @@ const TextMessage = ( {
             <div className='messages'>
                 <div className='content'>
                     {
-
+                        msgs.map( ( { type, text, loading }, index ) => {
+                            if ( type === 'bot' ) {
+                                const classes = `
+                                    message
+                                    ${loading ? 'loading' : ''}
+                                `;
+                                return (
+                                    <div className={classes} key={index}>
+                                        <Image className='img' src={imageURL.current}
+                                            width={25} height={25} />
+                                        {
+                                            text && (
+                                                <p className='text'>{text}</p>
+                                            )
+                                        }
+                                        {
+                                            loading && (
+                                                <div className='wat'></div>
+                                            )
+                                        }
+                                    </div>
+                                )
+                            }
+                            if ( type ==='user' ) {
+                                return (
+                                    <div className='message user' key={index}>
+                                        <p className='text'>{text}</p>
+                                    </div>
+                                )
+                            }
+                        } )
                     }
-                    Hello fdsjhf sahf jkfhjsh hfjkl
                 </div>
             </div>
-            <Form id='text-msg-form' name='testMsgForm' onSubmit={() => console.log( 'hello' )}
+            <Form id='text-msg-form' name='testMsgForm' onSubmit={onSubmit}
                 buttonProps={buttonProps}>
                 <TextInput id='msg' name='msg' type='text'
                     content={textInputContent} animate={false} maxLength={50}
-                    required />
+                    required disabled={isBotResponding} />
             </Form>
         </section>
     )

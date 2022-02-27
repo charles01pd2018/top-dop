@@ -18,7 +18,7 @@ $scroll-bar-thumb--border-radius:   20px;
 --------------------------------------------------------------*/
 /* CHROME, EDGE, SAFARI */
 ::-webkit-scrollbar {
-    width: $scrollbar--width; // width of the ENTIRE scrollbar - including thumb
+    // width: $scrollbar--width; // width of the ENTIRE scrollbar - including thumb
 }
 
 ::-webkit-scrollbar-track {

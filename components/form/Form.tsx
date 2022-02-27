@@ -1,8 +1,6 @@
 // dependencies
 import { FC, FormEvent, Children, cloneElement, ReactElement, 
     useMemo, useState, useEffect, useRef } from 'react';
-// elements
-import { FormButton } from 'elements';
 // lib
 import { validateChild, isObjectEmpty, PASSWORD } from 'lib';
 // utils
