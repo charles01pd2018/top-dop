@@ -122,6 +122,7 @@ const initForm = (
                     };
                     
                     handleFormFeatures( isValid, initialFormData );
+                    console.log( 'hi' );
                 }
                 else
                     handleFormFeatures( 
