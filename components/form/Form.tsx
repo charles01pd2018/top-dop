@@ -90,7 +90,7 @@ const Form: FC<Props> = ( {
         cacheFormData,
     } );
 
-    console.log( initialFormData );
+    console.log( JSON.stringify( initialFormData ) );
 
     /* ERRORS */
     // TO-DO - implement conditionalDisabled errors check
